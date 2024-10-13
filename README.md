@@ -19,7 +19,7 @@
 2. 克隆此仓库到本地机器：   ```
    git clone https://github.com/11429339/atmospheric-transmittance-model.git   ```
 3. 进入项目目录：   ```
-   cd atmospheric-transmittance-calculator   ```
+   cd atmospheric-transmittance-model   ```
 4. 编译项目：   ```
    dotnet build   ```
 
