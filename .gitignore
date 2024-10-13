@@ -1,0 +1,51 @@
+# 构建结果
+[Bb]in/
+[Oo]bj/
+[Ll]ib/
+
+# Visual Studio 文件
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# 编译文件
+*.dll
+*.exe
+*.pdb
+
+# 日志文件
+*.log
+
+# 临时文件
+[Tt]emp/
+[Tt]mp/
+
+# 缓存文件
+*.cache
+*.bak
+
+# 测试结果
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NuGet包
+*.nupkg
+**/packages/*
+!**/packages/build/
+
+# Visual Studio Code 设置
+.vscode/
+
+# Rider 设置
+.idea/
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 其他
+*.swp
+*.*~
+project.lock.json
