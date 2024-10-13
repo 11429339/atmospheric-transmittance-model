@@ -1,4 +1,7 @@
-using System;
+/*
+ * 版本历史：
+ * 1.0.0 (2024-10-13): 初始版本，提供各种大气传输模型的计算方法。作者：田建勇
+ */
 
 namespace AirTransmission
 {

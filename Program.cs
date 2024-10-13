@@ -3,7 +3,6 @@
  * 1.0.0 (2024-10-13): 初始版本，实现基本的大气透过率计算和测试功能。作者：田建勇
  */
 
-using System;
 using AirTransmission;
 
 class Program

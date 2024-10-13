@@ -15,7 +15,7 @@
 
 ## 安装说明
 
-1. 确保您的系统已安装 .NET Core 3.1 或更高版本。
+1. 确保您的系统已安装 .NET 7 或更高版本。
 2. 克隆此仓库到本地机器：   ```
    git clone https://github.com/11429339/atmospheric-transmittance-model.git   ```
 3. 进入项目目录：   ```

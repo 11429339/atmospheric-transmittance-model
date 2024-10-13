@@ -3,8 +3,6 @@
  * 1.0.0 (2024-10-13): 初始版本，实现激光在大气中的传输特性计算，包括湍流效应。作者：田建勇
  */
 
-using System;
-
 namespace AirTransmission
 {
     /// <summary>

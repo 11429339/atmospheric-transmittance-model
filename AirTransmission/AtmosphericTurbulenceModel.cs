@@ -3,8 +3,6 @@
  * 1.0.0 (2024-10-13): 初始版本，实现大气湍流对光传输影响的计算模型。作者：田建勇
  */
 
-using System;
-
 namespace AirTransmission
 {
     /// <summary>

@@ -3,8 +3,6 @@
  * 1.0.0 (2024-10-13): 初始版本，实现紫外线在大气中的传输特性计算。作者：田建勇
  */
 
-using System;
-
 namespace AirTransmission
 {
     /// <summary>
