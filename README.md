@@ -17,7 +17,7 @@
 
 1. 确保您的系统已安装 .NET Core 3.1 或更高版本。
 2. 克隆此仓库到本地机器：   ```
-   git clone https://github.com/tianjianyong/atmospheric-transmittance-calculator.git   ```
+   git clone https://github.com/11429339/atmospheric-transmittance-calculator.git   ```
 3. 进入项目目录：   ```
    cd atmospheric-transmittance-calculator   ```
 4. 编译项目：   ```
@@ -61,8 +61,8 @@
 
 如有任何问题或建议，请通过以下方式联系我们：
 
-- 电子邮件：<tianjianyong@gmail.com>
-- 项目 Issues：<https://github.com/yourusername/atmospheric-transmittance-calculator/issues>
+- 电子邮件：<11429339@qq.com>
+- 项目 Issues：<https://github.com/11429339/atmospheric-transmittance-calculator/issues>
 
 ## 致谢
 
