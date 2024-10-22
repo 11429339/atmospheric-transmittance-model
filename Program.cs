@@ -24,7 +24,7 @@ class Program
         double pulseWidth = 15; // 15 ns
         double targetDistance = 1; // 1公里
         double receiverDistance = 1; // 1公里
-        double targetReflectivity = 0.2; // 假设坦克反射率为20%
+        double targetReflectivity = 0.2; // 假设目标反射率为20%
 
         // 计算激光透过率和接收功率
         double transmittance = AtmosphericTransmittanceCalculator.CalcLaser(weatherCondition, targetDistance);
