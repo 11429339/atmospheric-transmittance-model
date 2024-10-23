@@ -62,7 +62,7 @@ class Program
         TestLaserTransmittance(WeatherType.晴天, "晴朗");
         TestLaserTransmittance(WeatherType.雨天, "小雨", relativeHumidity: 60, precipitation: 2.5, visibility: 5);
         TestLaserTransmittance(WeatherType.雨天, "大雨", relativeHumidity: 90, precipitation: 25, visibility: 2.5);
-        TestLaserTransmittance(WeatherType.雾天, "雾", relativeHumidity: 70, visibility: 1);
+        TestLaserTransmittance(WeatherType.雾天, "雾", relativeHumidity: 80, visibility: 5);
         TestLaserTransmittance(WeatherType.沙尘, "沙尘", visibility: 0.5);
         TestLaserTransmittance(WeatherType.雪天, "雪天", temperature: -5, relativeHumidity: 80, visibility: 1, precipitation: 2.5);
     }
@@ -70,7 +70,7 @@ class Program
     // 测试特定天气条件下的激光透过率
     static void TestLaserTransmittance(WeatherType type, string description, 
                                      double temperature = 25, double relativeHumidity = 50, 
-                                     double visibility = 10, double? precipitation = null, double latitude = 30)
+                                     double visibility = 23, double? precipitation = null, double latitude = 30)
     {
         double[] distances = [0.1, 0.5, 1, 5, 10]; // 测试不同距离（公里）
 

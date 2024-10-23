@@ -14,7 +14,7 @@ namespace AirTransmission
         /// <summary>
         /// 标准大气透过率
         /// </summary>
-        protected const double STANDARD_TRANSMITTANCE = 0.979; // 标准大气透过率
+        protected const double STANDARD_TRANSMITTANCE = 0.975; // 标准大气透过率
         /// <summary>
         /// 标准能见度（公里）
         /// </summary>
@@ -193,9 +193,9 @@ namespace AirTransmission
             if (Visibility >= STANDARD_VISIBILITY)
                 factor = 1;
             else if (Visibility > 5)
-                factor = Math.Pow(STANDARD_VISIBILITY / Visibility, 0.2);
+                factor = Math.Pow(STANDARD_VISIBILITY / Visibility, 0.25); //0.2
             else
-                factor = Math.Pow(STANDARD_VISIBILITY / Visibility, 0.3);
+                factor = Math.Pow(STANDARD_VISIBILITY / Visibility, 0.4); //
 
             if (IsDusty)
             {
