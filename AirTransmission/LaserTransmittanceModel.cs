@@ -1,6 +1,7 @@
 /*
  * 版本历史：
  * 1.0.0 (2024-10-13): 初始版本，实现激光在大气中的传输特性计算，包括湍流效应。作者：田建勇
+ * 1.1.0 (2024-10-18): 改进版本，考虑目标位置关系和大气参数分布。作者：田建勇
  */
 
 namespace AirTransmission
@@ -110,7 +111,8 @@ namespace AirTransmission
             double aerosolFactor = CalculateAerosolFactor();
             double visibilityFactor = CalculateVisibilityFactor();
 
-            return molecularFactor * aerosolFactor * visibilityFactor;
+            // 增加基础衰减
+            return molecularFactor * aerosolFactor * visibilityFactor * 1.2; // 增加1.2倍的基础衰减
         }
 
         /// <summary>
@@ -119,7 +121,8 @@ namespace AirTransmission
         /// <returns>分子散射因子</returns>
         private double CalculateMolecularFactor()
         {
-            return (Pressure / 1013.25) * (288.15 / Temperature);
+            // 增加分子散射的影响
+            return (Pressure / 1013.25) * (288.15 / Temperature) * 1.15; // 增加15%的分子散射
         }
 
         /// <summary>
@@ -138,7 +141,8 @@ namespace AirTransmission
             else
                 q = 0.585 * Math.Pow(1, 1.0/3.0);
 
-            double aerosolFactor = 3.91 / Visibility * Math.Pow(LASER_WAVELENGTH / 0.55, -q);
+            // 增加气溶胶散射的影响
+            double aerosolFactor = 3.91 / Visibility * Math.Pow(LASER_WAVELENGTH / 0.55, -q) * 1.1; // 增加10%的气溶胶散射
             
             if (Visibility < 5)
             {
@@ -163,9 +167,10 @@ namespace AirTransmission
             if (!IsFoggy)
                 return 0;
 
+            // 增加雾的衰减效应
             double q = 0.585 * Math.Pow(Visibility, 1.0/3.0);
             double beta = 3.91 / Visibility * Math.Pow(LASER_WAVELENGTH / 0.55, -q);
-            return beta * pathLength * 0.5;
+            return beta * pathLength * 1.2; // 从0.5改为1.2，增加雾的影响
         }
 
         /// <summary>
