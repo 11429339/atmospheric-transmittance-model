@@ -9,7 +9,7 @@ namespace AirTransmission
     /// <summary>
     /// 激光传输模型类，用于计算激光在大气中的传输特性
     /// </summary>
-    public class LaserTransmittanceModel(WeatherCondition weather) : TransmittanceModel(weather)
+    internal class LaserTransmittanceModel(WeatherCondition weather) : TransmittanceModel(weather)
     {
         /// <summary>
         /// 激光波长（微米）
@@ -183,7 +183,7 @@ namespace AirTransmission
         public double CalculateTransmittanceWithSmoke(double distance, double smokeConcentration, double smokeThickness)
         {
             double transmittance = CalculateTransmittance(distance);
-            double smokeTransmittance = CalculateSmokeScreenTransmittance(smokeConcentration, smokeThickness);
+            double smokeTransmittance = AtmosphericTransmittanceCalculator.CalculateSmokeScreenTransmittance(smokeConcentration, smokeThickness);
             return transmittance * smokeTransmittance;
         }
 

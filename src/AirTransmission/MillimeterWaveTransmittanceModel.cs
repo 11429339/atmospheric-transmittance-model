@@ -9,7 +9,7 @@ namespace AirTransmission
     /// <summary>
     /// 毫米波传输模型类，用于计算毫米波在大气中的传输特性
     /// </summary>
-    public class MillimeterWaveTransmittanceModel : TransmittanceModel
+    internal class MillimeterWaveTransmittanceModel : TransmittanceModel
     {
         /// <summary>
         /// 毫米波波长（毫米）

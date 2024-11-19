@@ -9,7 +9,7 @@ namespace AirTransmission
     /// <summary>
     /// 紫外线传输模型类，用于计算紫外线在大气中的传输特性
     /// </summary>
-    public class UVTransmittanceModel : TransmittanceModel
+    internal class UVTransmittanceModel : TransmittanceModel
     {
         // 光谱分段参数
         private const double MIN_WAVELENGTH = 0.2;  // 紫外波段最小波长（微米）

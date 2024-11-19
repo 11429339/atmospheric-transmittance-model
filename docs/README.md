@@ -1,12 +1,16 @@
-# 大气透过率计算器
+# 大气透过率计算库
 
 ## 项目简介
 
-大气透过率计算器是一个用于模拟和计算各种电磁波（包括激光、红外线、毫米波和紫外线）在不同大气条件下透过率的工具。本项目考虑了多种天气因素和大气湍流的影响，为光学和通信系统的设计与分析提供了有力支持。
+大气透过率计算库是一个用于模拟和计算各种电磁波（包括激光、红外线、毫米波和紫外线）在不同大气条件下透过率的工具。本项目考虑了多种天气因素和大气湍流的影响，为光学和通信系统的设计与分析提供了有力支持。
 
 ## 功能特性
 
 - 支持多种电磁波类型：激光、红外线、毫米波和紫外线
+  - 激光 (1.06μm)
+  - 红外 (3-12μm)
+  - 紫外 (0.2-0.4μm)
+  - 毫米波 (94GHz)
 - 考虑多种天气条件：晴天、雨天、雪天、雾天、沙尘天气
 - 模拟大气湍流对光传输的影响
 - 计算烟幕对透过率的影响
@@ -17,26 +21,32 @@
 
 1. 确保您的系统已安装 .NET 7 或更高版本。
 2. 克隆此仓库到本地机器：   ```
-   git clone https://github.com/11429339/atmospheric-transmittance-model.git   ```
+   git clone https://github.com/11429339/atmospheric-transmittance-model.git ```
 3. 进入项目目录：   ```
-   cd atmospheric-transmittance-model   ```
+   cd atmospheric-transmittance-model ```
 4. 编译项目：   ```
-   dotnet build   ```
+   dotnet build ```
 
-## 使用方法
+## 快速开始
 
-1. 在项目根目录下运行程序：   ```
-   dotnet run   ```
-2. 程序将自动执行一系列预设的测试场景，包括不同天气条件和传输距离。
-3. 查看控制台输出，了解各种条件下的透过率计算结果。
+```csharp
+// 创建天气条件
+var weather = new WeatherCondition(
+    type: WeatherType.晴天, // 天气类型
+    temperature: 20, // 温度(℃)
+    relativeHumidity: 0.45, // 相对湿度
+    visibility: 23000, // 能见度(米)
+    precipitation: 0 // 降雨量(mm/h)
+);
 
-### 示例代码
-
-如果您想在自己的程序中使用此计算器，可以参考Program.cs中的代码
+// 计算激光透过率
+double distance = 1000; // 1000米
+double transmittance = AtmosphericTransmittanceCalculator.CalcLaser(weather, distance);
+Console.WriteLine($"激光透过率: {transmittance:F4}");
+```
 
 ## 项目结构
 
-- `Program.cs`: 主程序入口，包含各种测试方法
 - `AtmosphericTransmittanceCalculator.cs`: 主要的计算接口
 - `TransmittanceModel.cs`: 透过率模型的基类
 - `LaserTransmittanceModel.cs`: 激光透过率模型

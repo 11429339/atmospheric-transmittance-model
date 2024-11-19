@@ -7,7 +7,7 @@
 namespace AirTransmission
 {
     /// <summary>
-    /// 提供各种大气传输模型的计算方法
+    /// 大气透过率计算器
     /// </summary>
     public static class AtmosphericTransmittanceCalculator
     {
@@ -49,7 +49,7 @@ namespace AirTransmission
         {
             var model = new IRTransmittanceModel(weather);
             double transmittance = model.CalculateTransmittance(distance);
-            double smokeTransmittance = TransmittanceModel.CalculateSmokeScreenTransmittance(smokeConcentration, smokeThickness);
+            double smokeTransmittance = CalculateSmokeScreenTransmittance(smokeConcentration, smokeThickness);
             return transmittance * smokeTransmittance;
         }
 
@@ -65,12 +65,12 @@ namespace AirTransmission
         {
             var model = new MillimeterWaveTransmittanceModel(weather);
             double transmittance = model.CalculateTransmittance(distance);
-            double smokeTransmittance = TransmittanceModel.CalculateSmokeScreenTransmittance(smokeConcentration, smokeThickness);
+            double smokeTransmittance = CalculateSmokeScreenTransmittance(smokeConcentration, smokeThickness);
             return transmittance * smokeTransmittance;
         }
 
         /// <summary>
-        /// 计算接收到的辐射功率
+        /// 计算双程传输后接收到的辐射功率
         /// </summary>
         /// <param name="transmittance">大气透过率</param>
         /// <param name="laserEnergy">激光能量（焦耳）</param>
@@ -110,7 +110,7 @@ namespace AirTransmission
         }
 
         /// <summary>
-        /// 计算单程传输中接收到的辐射功率
+        /// 计算单程传输后接收到的辐射功率
         /// </summary>
         /// <param name="transmittance">大气透过率</param>
         /// <param name="targetRadiation">目标辐射（W/Sr）</param>
@@ -143,6 +143,43 @@ namespace AirTransmission
         {
             var model = new UVTransmittanceModel(weather);
             return model.CalculateTransmittance(distance);
+        }
+
+        /// <summary>
+        /// 计算湍流效应对激光透过率的影响
+        /// </summary>
+        /// <param name="weather">天气条件</param>
+        /// <param name="distance">传输距离（米）</param>
+        /// <returns>大气透过率</returns>
+        public static double CalcTurbulenceEffect(WeatherCondition weather, double distance)
+        {
+            var model = new LaserTransmittanceModel(weather);
+            return model.CalculateTransmittanceWithTurbulence(distance);
+        }
+
+        /// <summary>
+        /// 计算烟幕对电磁波的透过率
+        /// </summary>
+        /// <param name="smokeConcentration">烟幕浓度（g/m³）</param>
+        /// <param name="smokeThickness">烟幕厚度（米）</param>
+        /// <returns>烟幕透过率（0到1之间的值）</returns>
+        public static double CalculateSmokeScreenTransmittance(double smokeConcentration, double smokeThickness)
+        {
+            if (smokeConcentration <= 0 || smokeThickness <= 0)
+                return 1; // 如果没有烟幕，返回1（无衰减）
+
+            // 烟幕衰减系数（假设值，需要根据实际烟幕特性调整）
+            double smokeAttenuationCoefficient = 0.5;
+
+            // 使用Beer-Lambert定律计算透过率
+            double transmittance = Math.Exp(-smokeAttenuationCoefficient * smokeConcentration * smokeThickness);
+
+            Console.WriteLine($"烟幕透过率计算:");
+            Console.WriteLine($"烟幕浓度: {smokeConcentration:F2} g/m³");
+            Console.WriteLine($"烟幕厚度: {smokeThickness:F2} m");
+            Console.WriteLine($"烟幕透过率: {transmittance:F4}");
+
+            return transmittance;
         }
     }
 }

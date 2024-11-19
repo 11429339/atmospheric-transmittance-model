@@ -9,7 +9,7 @@ namespace AirTransmission
     /// <summary>
     /// 大气透过率模型的抽象基类，提供了各种大气条件下的透过率计算方法
     /// </summary>
-    public abstract class TransmittanceModel(WeatherCondition weather)
+    internal abstract class TransmittanceModel(WeatherCondition weather)
     {
         // 常量
         /// <summary>
@@ -103,7 +103,8 @@ namespace AirTransmission
         /// </summary>
         /// <param name="wavelength">波长（微米或毫米）</param>
         /// <returns>雨衰减系数K</returns>
-   protected abstract double CalculateRainKCoefficient(double wavelength);
+        protected abstract double CalculateRainKCoefficient(double wavelength);
+
         /// <summary>
         /// 计算雨对电磁波的衰减系数α
         /// </summary>
@@ -206,81 +207,5 @@ namespace AirTransmission
 
             return factor;
         }
-
-        /// <summary>
-        /// 计算烟幕对电磁波的透过率
-        /// </summary>
-        /// <param name="smokeConcentration">烟幕浓度（g/m³）</param>
-        /// <param name="smokeThickness">烟幕厚度（米）</param>
-        /// <returns>烟幕透过率（0到1之间的值）</returns>
-        public static double CalculateSmokeScreenTransmittance(double smokeConcentration, double smokeThickness)
-        {
-            if (smokeConcentration <= 0 || smokeThickness <= 0)
-                return 1; // 如果没有烟幕，返回1（无衰减）
-
-            // 烟幕衰减系数（假设值，需要根据实际烟幕特性调整）
-            double smokeAttenuationCoefficient = 0.5;
-
-            // 使用Beer-Lambert定律计算透过率
-            double transmittance = Math.Exp(-smokeAttenuationCoefficient * smokeConcentration * smokeThickness);
-
-            Console.WriteLine($"烟幕透过率计算:");
-            Console.WriteLine($"烟幕浓度: {smokeConcentration:F2} g/m³");
-            Console.WriteLine($"烟幕厚度: {smokeThickness:F2} m");
-            Console.WriteLine($"烟幕透过率: {transmittance:F4}");
-
-            return transmittance;
-        }
-
-        /// <summary>
-        /// 打印天气信息
-        /// </summary>
-        /// <param name="weather">天气条件</param>
-        public static void PrintWeatherInfo(WeatherCondition weather){
-            Console.WriteLine($"---天气类型: {weather.Type}, 温度: {weather.Temperature}°C, 相对湿度: {weather.RelativeHumidity}%, 能见度: {weather.Visibility}km, 降水量: {weather.Precipitation ?? 0}mm/h");
-        }
-    }
-
-    /// <summary>
-    /// 天气类型枚举
-    /// </summary>
-    public enum WeatherType
-    {
-        晴天,
-        雨天,
-        雪天,
-        雾天,
-        沙尘
-    }
-
-    /// <summary>
-    /// 天气条件类
-    /// </summary>
-    public class WeatherCondition(WeatherType type, double temperature, double relativeHumidity, double visibility, double? precipitation = null, double co2Concentration = 415)
-    {
-        /// <summary>
-        /// 天气类型
-        /// </summary>
-        public WeatherType Type { get; set; } = type; // 天气类型
-        /// <summary>
-        /// 温度（摄氏度）
-        /// </summary>
-        public double Temperature { get; set; } = temperature; // 温度
-        /// <summary>
-        /// 相对湿度（百分比）
-        /// </summary>
-        public double RelativeHumidity { get; set; } = relativeHumidity; // 相对湿度
-        /// <summary>
-        /// 能见度（公里）
-        /// </summary>
-        public double Visibility { get; set; } = visibility; // 能见度
-        /// <summary>
-        /// 降水量（毫米/小时）
-        /// </summary>
-        public double? Precipitation { get; set; } = precipitation; // 降水量
-        /// <summary>
-        /// 二氧化碳浓度（ppm）
-        /// </summary>
-        public double CO2Concentration { get; set; } = co2Concentration;
     }
 }

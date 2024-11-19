@@ -9,7 +9,7 @@ namespace AirTransmission
     /// <summary>
     /// 红外线传输模型类，用于计算红外线在大气中的传输特性
     /// </summary>
-    public class IRTransmittanceModel : TransmittanceModel
+    internal class IRTransmittanceModel : TransmittanceModel
     {
         // 光谱分段参数
         private const double MIN_WAVELENGTH = 3.0;   // 红外波段最小波长（微米）

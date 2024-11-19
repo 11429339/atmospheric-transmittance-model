@@ -1,0 +1,545 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AirTransmission</name>
+    </assembly>
+    <members>
+        <member name="T:AirTransmission.AtmosphericTransmittanceCalculator">
+            <summary>
+            大气透过率计算器
+            </summary>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTransmittanceCalculator.CalcLaser(AirTransmission.WeatherCondition,System.Double)">
+            <summary>
+            计算激光在给定天气条件和距离下的大气透过率
+            </summary>
+            <param name="weather">天气条件</param>
+            <param name="distance">传输距离（米）</param>
+            <returns>大气透过率</returns>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTransmittanceCalculator.CalcLaserWithSmoke(AirTransmission.WeatherCondition,System.Double,System.Double,System.Double)">
+            <summary>
+            计算激光在有烟雾条件下的大气透过率
+            </summary>
+            <param name="weather">天气条件</param>
+            <param name="distance">传输距离（米）</param>
+            <param name="smokeConcentration">烟雾浓度</param>
+            <param name="smokeThickness">烟雾厚度（米）</param>
+            <returns>大气透过率</returns>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTransmittanceCalculator.CalcIR(AirTransmission.WeatherCondition,System.Double,System.Double,System.Double)">
+            <summary>
+            计算红外线在给定条件下的大气透过率
+            </summary>
+            <param name="weather">天气条件</param>
+            <param name="distance">传输距离（米）</param>
+            <param name="smokeConcentration">烟雾浓度</param>
+            <param name="smokeThickness">烟雾厚度（米）</param>
+            <returns>大气透过率</returns>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTransmittanceCalculator.CalcMillimeterWave(AirTransmission.WeatherCondition,System.Double,System.Double,System.Double)">
+            <summary>
+            计算毫米波在给定条件下的大气透过率
+            </summary>
+            <param name="weather">天气条件</param>
+            <param name="distance">传输距离（米）</param>
+            <param name="smokeConcentration">烟雾浓度</param>
+            <param name="smokeThickness">烟雾厚度（米）</param>
+            <returns>大气透过率</returns>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTransmittanceCalculator.CalculateReceivedRadiation(System.Double,System.Double,System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            计算双程传输后接收到的辐射功率
+            </summary>
+            <param name="transmittance">大气透过率</param>
+            <param name="laserEnergy">激光能量（焦耳）</param>
+            <param name="pulseWidth">脉冲宽度（纳秒）</param>
+            <param name="targetDistance">目标距离（米）</param>
+            <param name="receiverDistance">接收器距离（米）</param>
+            <param name="targetReflectivity">目标反射率</param>
+            <returns>接收到的辐射功率（瓦特）</returns>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTransmittanceCalculator.CalculateReceivedRadiationSinglePath(System.Double,System.Double,System.Double)">
+            <summary>
+            计算单程传输后接收到的辐射功率
+            </summary>
+            <param name="transmittance">大气透过率</param>
+            <param name="targetRadiation">目标辐射（W/Sr）</param>
+            <param name="receiverDistance">接收器距离（米）</param>
+            <returns>接收到的辐射功率（W/Sr）</returns>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTransmittanceCalculator.CalcUV(AirTransmission.WeatherCondition,System.Double)">
+            <summary>
+            计算紫外线在给定天气条件和距离下的大气透过率
+            </summary>
+            <param name="weather">天气条件</param>
+            <param name="distance">传输距离（米）</param>
+            <returns>大气透过率</returns>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTransmittanceCalculator.CalcTurbulenceEffect(AirTransmission.WeatherCondition,System.Double)">
+            <summary>
+            计算湍流效应对激光透过率的影响
+            </summary>
+            <param name="weather">天气条件</param>
+            <param name="distance">传输距离（米）</param>
+            <returns>大气透过率</returns>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTransmittanceCalculator.CalculateSmokeScreenTransmittance(System.Double,System.Double)">
+            <summary>
+            计算烟幕对电磁波的透过率
+            </summary>
+            <param name="smokeConcentration">烟幕浓度（g/m³）</param>
+            <param name="smokeThickness">烟幕厚度（米）</param>
+            <returns>烟幕透过率（0到1之间的值）</returns>
+        </member>
+        <member name="T:AirTransmission.AtmosphericTurbulenceModel">
+            <summary>
+            大气湍流模型类，用于计算大气湍流对光传输的影响
+            </summary>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTurbulenceModel.CalculateTurbulenceEffect(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            计算大气湍流对光传输的综合影响
+            </summary>
+            <param name="distance">传输距离（米）</param>
+            <param name="height">传输高度（米）</param>
+            <param name="windSpeed">风速（米/秒）</param>
+            <param name="C2n">大气折射率结构常数</param>
+            <returns>湍流效应（0到1之间的值，1表示无影响，0表示完全衰减）</returns>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTurbulenceModel.CalculateC2n(System.Double,System.Double)">
+            <summary>
+            使用修改后的 Hufnagel-Valley 模型计算大气折射率结构常数
+            </summary>
+            <param name="height">高度（米）</param>
+            <param name="windSpeed">风速（米/秒）</param>
+            <returns>大气折射率结构常数</returns>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTurbulenceModel.CalculateFriedParameter(System.Double,System.Double)">
+            <summary>
+            计算弗里德参数（Fried parameter）
+            </summary>
+            <param name="C2n">大气折射率结构常数</param>
+            <param name="L">传输距离（米）</param>
+            <returns>弗里德参数（米）</returns>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTurbulenceModel.CalculateScintillationIndex(System.Double,System.Double,System.Double)">
+            <summary>
+            计算闪烁指数（Scintillation Index）
+            </summary>
+            <param name="C2n">大气折射率结构常数</param>
+            <param name="k">波数</param>
+            <param name="L">传输距离（米）</param>
+            <returns>闪烁指数（无量纲）</returns>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTurbulenceModel.CalculateBeamWander(System.Double,System.Double,System.Double)">
+            <summary>
+            计算光束漂移（Beam Wander）
+            </summary>
+            <param name="C2n">大气折射率结构常数</param>
+            <param name="L">传输距离（米）</param>
+            <param name="h">传输高度（米）</param>
+            <returns>光束漂移（弧度）</returns>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTurbulenceModel.CalculateCoherenceLength(System.Double,System.Double)">
+            <summary>
+            计算相干长度（Coherence Length）
+            </summary>
+            <param name="C2n">大气折射率结构常数</param>
+            <param name="L">传输距离（米）</param>
+            <returns>相干长度（米）</returns>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTurbulenceModel.CalculateAngleOfArrival(System.Double,System.Double,System.Double)">
+            <summary>
+            计算到达角（Angle of Arrival）
+            </summary>
+            <param name="C2n">大气折射率结构常数</param>
+            <param name="L">传输距离（米）</param>
+            <param name="D">接收器口径（米）</param>
+            <returns>到达角（弧度）</returns>
+        </member>
+        <member name="M:AirTransmission.AtmosphericTurbulenceModel.CalculateIsoplanatismAngle(System.Double,System.Double)">
+            <summary>
+            计算等晕角（Isoplanatism Angle）
+            </summary>
+            <param name="C2n">大气折射率结构常数</param>
+            <param name="L">传输距离（米）</param>
+            <returns>等晕角（弧度）</returns>
+        </member>
+        <member name="T:AirTransmission.IRTransmittanceModel">
+            <summary>
+            红外线传输模型类，用于计算红外线在大气中的传输特性
+            </summary>
+        </member>
+        <member name="T:AirTransmission.LaserTransmittanceModel">
+            <summary>
+            激光传输模型类，用于计算激光在大气中的传输特性
+            </summary>
+        </member>
+        <member name="M:AirTransmission.LaserTransmittanceModel.#ctor(AirTransmission.WeatherCondition)">
+            <summary>
+            激光传输模型类，用于计算激光在大气中的传输特性
+            </summary>
+        </member>
+        <member name="F:AirTransmission.LaserTransmittanceModel.LASER_WAVELENGTH">
+            <summary>
+            激光波长（微米）
+            </summary>
+        </member>
+        <member name="M:AirTransmission.LaserTransmittanceModel.CalculateTransmittance(System.Double)">
+            <summary>
+            计算给定距离的激光透过率
+            </summary>
+            <param name="distance">传输距离（米）</param>
+            <returns>激光透过率（0到1之间的值）</returns>
+        </member>
+        <member name="M:AirTransmission.LaserTransmittanceModel.CalculateTransmittanceWithTurbulence(System.Double)">
+            <summary>
+            计算考虑湍流效应的激光透过率
+            </summary>
+            <param name="distance">传输距离（米）</param>
+            <returns>考虑湍流效应的激光透过率</returns>
+        </member>
+        <member name="M:AirTransmission.LaserTransmittanceModel.CalculateRainKCoefficient(System.Double)">
+            <summary>
+            计算雨对激光的衰减系数K
+            </summary>
+            <param name="wavelength">波长（微米）</param>
+            <returns>雨衰减系数K</returns>
+        </member>
+        <member name="M:AirTransmission.LaserTransmittanceModel.CalculateRainAlphaCoefficient(System.Double)">
+            <summary>
+            计算雨对激光的衰减系数α
+            </summary>
+            <param name="wavelength">波长（微米）</param>
+            <returns>雨衰减系数α</returns>
+        </member>
+        <member name="M:AirTransmission.LaserTransmittanceModel.CalculateSnowKCoefficient(System.Double)">
+            <summary>
+            计算雪对激光的衰减系数K
+            </summary>
+            <param name="wavelength">波长（微米）</param>
+            <returns>雪衰减系数K</returns>
+        </member>
+        <member name="M:AirTransmission.LaserTransmittanceModel.CalculateSnowAlphaCoefficient(System.Double)">
+            <summary>
+            计算雪对激光的衰减系数α
+            </summary>
+            <param name="wavelength">波长（微米）</param>
+            <returns>雪衰减系数α</returns>
+        </member>
+        <member name="M:AirTransmission.LaserTransmittanceModel.CalculateAttenuationFactor">
+            <summary>
+            计算激光的总衰减因子
+            </summary>
+            <returns>激光总衰减因子</returns>
+        </member>
+        <member name="M:AirTransmission.LaserTransmittanceModel.CalculateMolecularFactor">
+            <summary>
+            计算分子散射因子
+            </summary>
+            <returns>分子散射因子</returns>
+        </member>
+        <member name="M:AirTransmission.LaserTransmittanceModel.CalculateAerosolFactor">
+            <summary>
+            计算气溶胶散射因子
+            </summary>
+            <returns>气溶胶散射因子</returns>
+        </member>
+        <member name="M:AirTransmission.LaserTransmittanceModel.CalculateFogAttenuation(System.Double)">
+            <summary>
+            计算雾对激光的衰减
+            </summary>
+            <param name="pathLength">传输路径长度（米）</param>
+            <returns>雾对激光的衰减</returns>
+        </member>
+        <member name="M:AirTransmission.LaserTransmittanceModel.CalculateTransmittanceWithSmoke(System.Double,System.Double,System.Double)">
+            <summary>
+            计算考虑烟雾的激光透过率
+            </summary>
+            <param name="distance">传输距离（米）</param>
+            <param name="smokeConcentration">烟雾浓度</param>
+            <param name="smokeThickness">烟雾厚度（米）</param>
+            <returns>考虑烟雾的激光透过率</returns>
+        </member>
+        <member name="M:AirTransmission.LaserTransmittanceModel.ApplyTurbulenceEffect(System.Double,System.Double)">
+            <summary>
+            应用湍流效应到透过率
+            </summary>
+            <param name="transmittance">原始透过率</param>
+            <param name="distance">传输距离（米）</param>
+            <returns>考虑湍流效应后的透过率</returns>
+        </member>
+        <member name="T:AirTransmission.MillimeterWaveTransmittanceModel">
+            <summary>
+            毫米波传输模型类，用于计算毫米波在大气中的传输特性
+            </summary>
+        </member>
+        <member name="F:AirTransmission.MillimeterWaveTransmittanceModel.MILLIMETER_WAVE_WAVELENGTH">
+            <summary>
+            毫米波波长（毫米）
+            </summary>
+        </member>
+        <member name="M:AirTransmission.MillimeterWaveTransmittanceModel.CalculateTransmittance(System.Double)">
+            <summary>
+            计算给定距离的毫米波透过率
+            </summary>
+            <param name="distance">传输距离（米）</param>
+            <returns>毫米波透过率（0到1之间的值）</returns>
+        </member>
+        <member name="M:AirTransmission.MillimeterWaveTransmittanceModel.CalculateMolecularScattering">
+            <summary>
+            计算分子散射系数
+            </summary>
+            <returns>分子散射系数（km^-1）</returns>
+        </member>
+        <member name="M:AirTransmission.MillimeterWaveTransmittanceModel.CalculateAerosolScattering">
+            <summary>
+            计算气溶胶散射系数
+            </summary>
+            <returns>气溶胶散射系数（km^-1）</returns>
+        </member>
+        <member name="M:AirTransmission.MillimeterWaveTransmittanceModel.CalculateWaterVaporAttenuation">
+            <summary>
+            计算水汽吸收系数
+            </summary>
+            <returns>水汽吸收系数（km^-1）</returns>
+        </member>
+        <member name="M:AirTransmission.MillimeterWaveTransmittanceModel.CalculateWaterVaporDensity">
+            <summary>
+            计算水汽密度
+            </summary>
+            <returns>水汽密度（g/m³）</returns>
+        </member>
+        <member name="M:AirTransmission.MillimeterWaveTransmittanceModel.CalculateOxygenAttenuation">
+            <summary>
+            计算氧气吸收系数
+            </summary>
+            <returns>氧气吸收系数（km^-1）</returns>
+        </member>
+        <member name="M:AirTransmission.MillimeterWaveTransmittanceModel.CalculateMillimeterWaveFogAttenuation(System.Double)">
+            <summary>
+            计算雾对毫米波的衰减
+            </summary>
+            <param name="pathLength">传输路径长度（米）</param>
+            <returns>雾衰减</returns>
+        </member>
+        <member name="T:AirTransmission.TransmittanceModel">
+            <summary>
+            大气透过率模型的抽象基类，提供了各种大气条件下的透过率计算方法
+            </summary>
+        </member>
+        <member name="M:AirTransmission.TransmittanceModel.#ctor(AirTransmission.WeatherCondition)">
+            <summary>
+            大气透过率模型的抽象基类，提供了各种大气条件下的透过率计算方法
+            </summary>
+        </member>
+        <member name="F:AirTransmission.TransmittanceModel.STANDARD_TRANSMITTANCE">
+            <summary>
+            标准大气透过率
+            </summary>
+        </member>
+        <member name="F:AirTransmission.TransmittanceModel.STANDARD_VISIBILITY">
+            <summary>
+            标准能见度（公里）
+            </summary>
+        </member>
+        <member name="F:AirTransmission.TransmittanceModel.STANDARD_AEROSOL_DENSITY">
+            <summary>
+            标准气溶胶密度（粒子/立方厘米）
+            </summary>
+        </member>
+        <member name="F:AirTransmission.TransmittanceModel.weatherCondition">
+            <summary>
+            当前天气条件
+            </summary>
+        </member>
+        <member name="P:AirTransmission.TransmittanceModel.Temperature">
+            <summary>
+            温度（开尔文）
+            </summary>
+        </member>
+        <member name="P:AirTransmission.TransmittanceModel.Pressure">
+            <summary>
+            大气压力（百帕）
+            </summary>
+        </member>
+        <member name="P:AirTransmission.TransmittanceModel.Humidity">
+            <summary>
+            相对湿度（百分比）
+            </summary>
+        </member>
+        <member name="P:AirTransmission.TransmittanceModel.AerosolDensity">
+            <summary>
+            气溶胶密度（粒子/立方厘米）
+            </summary>
+        </member>
+        <member name="P:AirTransmission.TransmittanceModel.Visibility">
+            <summary>
+            能见度（公里）
+            </summary>
+        </member>
+        <member name="P:AirTransmission.TransmittanceModel.IsRaining">
+            <summary>
+            是否下雨
+            </summary>
+        </member>
+        <member name="P:AirTransmission.TransmittanceModel.RainRate">
+            <summary>
+            降雨量（毫米/小时）
+            </summary>
+        </member>
+        <member name="P:AirTransmission.TransmittanceModel.IsFoggy">
+            <summary>
+            是否有雾
+            </summary>
+        </member>
+        <member name="P:AirTransmission.TransmittanceModel.IsDusty">
+            <summary>
+            是否有沙尘
+            </summary>
+        </member>
+        <member name="P:AirTransmission.TransmittanceModel.IsSnowing">
+            <summary>
+            是否下雪
+            </summary>
+        </member>
+        <member name="P:AirTransmission.TransmittanceModel.SnowRate">
+            <summary>
+            降雪量（毫米/小时）
+            </summary>
+        </member>
+        <member name="P:AirTransmission.TransmittanceModel.CO2Concentration">
+            <summary>
+            二氧化碳浓度（ppm）
+            </summary>
+        </member>
+        <member name="M:AirTransmission.TransmittanceModel.CalculateTransmittance(System.Double)">
+            <summary>
+            计算给定距离的大气透过率
+            </summary>
+            <param name="distance">传输距离（米）</param>
+            <returns>大气透过率（0到1之间的值）</returns>
+        </member>
+        <member name="M:AirTransmission.TransmittanceModel.CalculateAerosolDensity(System.Double)">
+            <summary>
+            根据能见度计算气溶胶密度
+            </summary>
+            <param name="visibility">能见度（公里）</param>
+            <returns>气溶胶密度（粒子/立方厘米）</returns>
+        </member>
+        <member name="M:AirTransmission.TransmittanceModel.CalculateRainKCoefficient(System.Double)">
+            <summary>
+            计算雨对电磁波的衰减系数K
+            </summary>
+            <param name="wavelength">波长（微米或毫米）</param>
+            <returns>雨衰减系数K</returns>
+        </member>
+        <member name="M:AirTransmission.TransmittanceModel.CalculateRainAlphaCoefficient(System.Double)">
+            <summary>
+            计算雨对电磁波的衰减系数α
+            </summary>
+            <param name="wavelength">波长（微米或毫米）</param>
+            <returns>雨衰减系数α</returns>
+        </member>
+        <member name="M:AirTransmission.TransmittanceModel.CalculateSnowKCoefficient(System.Double)">
+            <summary>
+            计算雪对电磁波的衰减系数K
+            </summary>
+            <param name="wavelength">波长（微米或毫米）</param>
+            <returns>雪衰减系数K</returns>
+        </member>
+        <member name="M:AirTransmission.TransmittanceModel.CalculateSnowAlphaCoefficient(System.Double)">
+            <summary>
+            计算雪对电磁波的衰减系数α
+            </summary>
+            <param name="wavelength">波长（微米或毫米）</param>
+            <returns>雪衰减系数α</returns>
+        </member>
+        <member name="M:AirTransmission.TransmittanceModel.CalculateRainAttenuation(System.Double,System.Double)">
+            <summary>
+            计算雨对电磁波的衰减
+            </summary>
+            <param name="pathLength">传输路径长度（米）</param>
+            <param name="wavelength">波长（微米或毫米）</param>
+            <returns>雨衰减（dB）</returns>
+        </member>
+        <member name="M:AirTransmission.TransmittanceModel.CalculateSnowAttenuation(System.Double,System.Double)">
+            <summary>
+            计算雪对电磁波的衰减
+            </summary>
+            <param name="pathLength">传输路径长度（米）</param>
+            <param name="wavelength">波长（微米或毫米）</param>
+            <returns>雪衰减（dB）</returns>
+        </member>
+        <member name="M:AirTransmission.TransmittanceModel.CalculateDustAttenuation(System.Double)">
+            <summary>
+            计算沙尘对电磁波的衰减
+            </summary>
+            <param name="pathLength">传输路径长度（米）</param>
+            <returns>沙尘衰减（dB）</returns>
+        </member>
+        <member name="M:AirTransmission.TransmittanceModel.CalculateVisibilityFactor">
+            <summary>
+            计算能见度因子
+            </summary>
+            <returns>能见度因子</returns>
+        </member>
+        <member name="T:AirTransmission.UVTransmittanceModel">
+            <summary>
+            紫外线传输模型类，用于计算紫外线在大气中的传输特性
+            </summary>
+        </member>
+        <member name="T:AirTransmission.WeatherCondition">
+            <summary>
+            天气条件类
+            </summary>
+        </member>
+        <member name="M:AirTransmission.WeatherCondition.#ctor(AirTransmission.WeatherType,System.Double,System.Double,System.Double,System.Nullable{System.Double},System.Double)">
+            <summary>
+            天气条件类
+            </summary>
+        </member>
+        <member name="P:AirTransmission.WeatherCondition.Type">
+            <summary>
+            天气类型
+            </summary>
+        </member>
+        <member name="P:AirTransmission.WeatherCondition.Temperature">
+            <summary>
+            温度（摄氏度）
+            </summary>
+        </member>
+        <member name="P:AirTransmission.WeatherCondition.RelativeHumidity">
+            <summary>
+            相对湿度（百分比）
+            </summary>
+        </member>
+        <member name="P:AirTransmission.WeatherCondition.Visibility">
+            <summary>
+            能见度（公里）
+            </summary>
+        </member>
+        <member name="P:AirTransmission.WeatherCondition.Precipitation">
+            <summary>
+            降水量（毫米/小时）
+            </summary>
+        </member>
+        <member name="P:AirTransmission.WeatherCondition.CO2Concentration">
+            <summary>
+            二氧化碳浓度（ppm）
+            </summary>
+        </member>
+        <member name="M:AirTransmission.WeatherCondition.PrintWeatherInfo(AirTransmission.WeatherCondition)">
+            <summary>
+            打印天气信息
+            </summary>
+            <param name="weather">天气条件</param>
+        </member>
+        <member name="T:AirTransmission.WeatherType">
+            <summary>
+            天气类型枚举
+            </summary>
+        </member>
+    </members>
+</doc>

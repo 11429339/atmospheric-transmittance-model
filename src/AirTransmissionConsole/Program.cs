@@ -50,9 +50,6 @@ class Program
 
         Console.WriteLine("\n不同天气条件下的紫外线透过率测试");
         TestUVTransmittanceInDifferentWeather();
-
-        Console.WriteLine("\n湍流效应对激光透过率的影响");
-        TestTurbulenceEffect();
     }
 
     // 测试不同天气条件下的激光透过率
@@ -85,10 +82,11 @@ class Program
 
         // 输出结果
         Console.WriteLine($"\n[{description}条件下的激光透过率]");
-        TransmittanceModel.PrintWeatherInfo(weatherCondition);
+        WeatherCondition.PrintWeatherInfo(weatherCondition);
         foreach (var d in distances){
             double laserTransmittance = AtmosphericTransmittanceCalculator.CalcLaser(weatherCondition, d);
-            Console.WriteLine($"距离：{d}公里, 1.06μm激光透过率为: {laserTransmittance:P2}");
+            double turbulenceEffect = AtmosphericTransmittanceCalculator.CalcTurbulenceEffect(weatherCondition, d);
+            Console.WriteLine($"距离：{d}公里, 1.06μm激光透过率为: {laserTransmittance:P2}, 湍流效应: {turbulenceEffect:P2}");
         }
     }
 
@@ -131,7 +129,7 @@ class Program
 
         // 输出结果
         Console.WriteLine($"\n[{description}条件下的红外线透过率]");
-        TransmittanceModel.PrintWeatherInfo(weatherCondition);
+        WeatherCondition.PrintWeatherInfo(weatherCondition);
         foreach (var d in distances)
         {
             double irTransmittance = AtmosphericTransmittanceCalculator.CalcIR(weatherCondition, d);
@@ -154,7 +152,7 @@ class Program
         double smokeThickness = 15; // 假设烟幕墙厚度为5米
 
         // 计算烟幕透过率
-        double smokeScreenTransmittance = TransmittanceModel.CalculateSmokeScreenTransmittance(smokeConcentration, smokeThickness);
+        double smokeScreenTransmittance = AtmosphericTransmittanceCalculator.CalculateSmokeScreenTransmittance(smokeConcentration, smokeThickness);
         Console.WriteLine($"\n仅考虑烟幕的透过率: {smokeScreenTransmittance:P2}");
     }
 
@@ -188,7 +186,7 @@ class Program
 
         // 输出结果
         Console.WriteLine($"\n[{description}条件下的毫米波透过率]");
-        TransmittanceModel.PrintWeatherInfo(weatherCondition);
+        WeatherCondition.PrintWeatherInfo(weatherCondition);
         foreach (var d in distances)
         {
             double mmWaveTransmittance = AtmosphericTransmittanceCalculator.CalcMillimeterWave(weatherCondition, d);
@@ -238,7 +236,7 @@ class Program
 
         // 输出结果
         Console.WriteLine($"\n[{description}条件下的紫外线透过率]");
-        TransmittanceModel.PrintWeatherInfo(weatherCondition);
+        WeatherCondition.PrintWeatherInfo(weatherCondition);
         foreach (var d in distances)
         {
             double uvTransmittance = AtmosphericTransmittanceCalculator.CalcUV(weatherCondition, d);
@@ -246,28 +244,4 @@ class Program
         }
     }
 
-    // 测试湍流效应对激光透过率的影响
-    static void TestTurbulenceEffect()
-    {
-        // 创建天气条件
-        var weatherCondition = new WeatherCondition(
-            type: WeatherType.晴天,
-            temperature: 25,
-            relativeHumidity: 60,
-            visibility: 10
-        );
-
-        var laserModel = new LaserTransmittanceModel(weatherCondition);
-
-        double[] distances = [0.1, 0.5, 1, 5, 10]; // 测试不同距离（公里）
-
-        // 输出结果
-        Console.WriteLine("\n[湍流效应对激光透过率的影响]");
-        foreach (var d in distances)
-        {
-            double transmittanceWithoutTurbulence = laserModel.CalculateTransmittance(d);
-            double transmittanceWithTurbulence = laserModel.CalculateTransmittanceWithTurbulence(d);
-            Console.WriteLine($"距离：{d}公里, 无湍流透过率: {transmittanceWithoutTurbulence:P2}, 有湍流透过率: {transmittanceWithTurbulence:P2}");
-        }
-    }
 }

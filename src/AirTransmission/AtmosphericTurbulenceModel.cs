@@ -9,7 +9,7 @@ namespace AirTransmission
     /// <summary>
     /// 大气湍流模型类，用于计算大气湍流对光传输的影响
     /// </summary>
-    public class AtmosphericTurbulenceModel
+    internal class AtmosphericTurbulenceModel
     {
         // 波数，假设波长为1.06微米（常用的激光波长）
         private const double k = 2 * Math.PI / 1.06e-6;

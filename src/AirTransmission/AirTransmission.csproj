@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>AirTransmission.xml</DocumentationFile>
+    <InternalsVisibleTo>AirTransmissionConsole</InternalsVisibleTo>
+    <InternalsVisibleTo>AirTransmission.Tests</InternalsVisibleTo>
+    <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>
+    <Description>大气透过率计算库</Description>
+    <Authors>田建勇</Authors>
+    <Version>1.0.0</Version>
+    <Copyright>Copyright © 2024</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DocumentationMode>Selective</DocumentationMode>
+    <DefaultDocumentationFolder>docs</DefaultDocumentationFolder>
+    <DefaultDocumentationInternalsVisibility>false</DefaultDocumentationInternalsVisibility>
+    <DefaultDocumentationPrivatesVisibility>false</DefaultDocumentationPrivatesVisibility>
+  </PropertyGroup>
+
+</Project> 
